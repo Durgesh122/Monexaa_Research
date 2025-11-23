@@ -1,0 +1,168 @@
+@import url('https://fonts.googleapis.com/css2?family=Marcellus&display=swap');
+
+@tailwind base;
+@tailwind components;
+
+@tailwind utilities;
+
+html,
+:host {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Marcellus', serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Global background requested: #89C0FF */
+  background-color: #FFF4E9;
+  color: #0b2540; /* dark text for contrast against the light blue background */
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: transparent; /* body provides the page background */
+}
+
+main {
+  flex: 1;
+  padding: 1rem;
+}
+
+footer {
+  padding: 1rem;
+  text-align: center;
+  background: transparent; /* footer component controls its own background */
+  position: relative; /* keep footer in document flow to avoid overlap */
+  z-index: 10;
+}
+
+/* Designer badge animation for footer credit */
+.designer-badge {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 0.375rem;
+  background: rgba(255,255,255,0.04);
+  color: #fff;
+  transform-origin: center;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+  animation: float 4s ease-in-out infinite, softGlow 3s ease-in-out infinite;
+}
+
+.designer-badge:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 8px 28px rgba(83,40,34,0.18);
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes softGlow {
+  0% { box-shadow: 0 0 0 rgba(255,255,255,0); }
+  50% { box-shadow: 0 10px 30px rgba(255,255,255,0.06); }
+  100% { box-shadow: 0 0 0 rgba(255,255,255,0); }
+}
+
+/* No fixed footer adjustments — footer stays in normal flow */
+
+/* Smooth scroll for anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Hero entrance animations */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); filter: blur(4px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+@keyframes gentlePulse {
+  0% { text-shadow: 0 0 0 rgba(25,140,127,0); }
+  50% { text-shadow: 0 0 12px rgba(25,140,127,0.35); }
+  100% { text-shadow: 0 0 0 rgba(25,140,127,0); }
+}
+@keyframes hueShiftAccent {
+  0% { color: #198c7f; }
+  50% { color: #0f5d53; }
+  100% { color: #198c7f; }
+}
+.animate-heading-loop { animation: gentlePulse 5s ease-in-out infinite; }
+.animate-accent-loop { animation: hueShiftAccent 6s ease-in-out infinite; }
+
+.fade-up { animation: fadeUp 640ms ease both; }
+.fade-up-1 { animation: fadeUp 700ms ease both; animation-delay: 90ms; }
+.fade-up-2 { animation: fadeUp 760ms ease both; animation-delay: 180ms; }
+.fade-up-3 { animation: fadeUp 820ms ease both; animation-delay: 270ms; }
+
+/* Subtle hero gradient overlay — make transparent so page background shows through */
+.hero-gradient {
+  background: transparent;
+}
+
+/* Alert/ticker styles */
+.alert-banner {
+  width: 100%;
+  overflow: hidden;
+  background: linear-gradient(90deg,#FFF8E6,#FFF3DD);
+  border-top: 1px solid rgba(217, 209, 183, 0.6);
+  border-bottom: 1px solid rgba(217, 209, 183, 0.6);
+  padding: 4px 0; /* reduced height */
+}
+
+/* Mobile: show alert but make it compact and non-animated so message is readable */
+@media (max-width: 640px) {
+  .alert-banner {
+    display: block;
+    padding: 6px 10px; /* slightly larger horizontal padding on phones */
+  }
+
+  /* Keep marquee on mobile but make it compact and slightly slower for readability */
+  .alert-track {
+    animation: marquee var(--marquee-duration, 20s) linear infinite;
+    display: flex;
+    gap: 28px;
+    white-space: nowrap;
+    align-items: center;
+    will-change: transform;
+  }
+
+  .alert-item {
+    display: inline-block;
+    padding: 2px 0;
+    font-size: 12px;
+    font-weight: 600;
+    color: #92400E;
+  }
+}
+
+.alert-track {
+  display: flex;
+  gap: 48px;
+  white-space: nowrap;
+  align-items: center;
+  /* animate left; duration and translate computed at runtime via CSS vars */
+  animation: marquee var(--marquee-duration, 18s) linear infinite;
+  will-change: transform;
+}
+
+.alert-item {
+  display: inline-block;
+  padding: 4px 0;
+  color: #92400E;
+  font-weight: 700;
+  font-size: 13px; /* slightly smaller for compact banner */
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(var(--marquee-translate, -50%)); }
+}
+
+/* Pause animation on hover for usability */
+.alert-banner:hover .alert-track { animation-play-state: paused; }

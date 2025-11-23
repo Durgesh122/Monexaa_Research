@@ -1,0 +1,41 @@
+{
+  "sebi_description": "SEBI registered research house delivering timely market insights and reports for informed investment decisions.",
+  "section": {
+    "company": "Company",
+    "services": "Services",
+    "legal": "Legal"
+  },
+  "links": {
+    "aboutUs": "About Us",
+    "blogs": "Blogs",
+    "marketNews": "Market News",
+    "contactUs": "Contact Us",
+
+    "rapidIndex": "Rapid Index",
+    "rapidOption": "Rapid Option",
+    "cashPositional": "Cash Positional",
+    "stockFuture": "Stock Future",
+    "eliteCombo": "Elite Combo",
+
+    "termsAndConditions": "Terms & Conditions",
+    "privacyPolicy": "Privacy Policy",
+    "disclaimer": "Disclaimer",
+    "refundPolicy": "Refund Policy",
+    "disclosure": "Disclosure"
+  },
+  "contact_heading": "Contact Us",
+  "address_line": "261, PU-4, Plot No. 26, Scheme No. 54, Indore, Madhya Pradesh – 452010",
+  "support_email": "support@monexaaresearch.com",
+  "phone": "+91 6232678136",
+  "sebi_title": "SEBI Registered Research Analyst",
+  "sebi": {
+    "registration_no": "Registration No:",
+    "registered_name": "Registered Name:",
+    "compliance_officer": "Compliance Officer:",
+    "gst_no": "GST No:",
+    "bse_enlistment_no": "BSE Enlistment No:",
+    "validity": "Validity:"
+  },
+  "disclaimer_paragraph": "Investments in securities market are subject to market risks. Read all the related documents carefully before investing.",
+  "copyright": "© {{year}} Monnexaa Research Private Limited. All rights reserved."
+}

@@ -1,0 +1,165 @@
+:root{
+  --accent:#0F8B6E;
+  --card-bg:#F5F8F4;
+  --card-border:#d9e6df;
+  --muted-border:#e6eef0;
+}
+
+/* Container */
+.lm-container{
+  /* Full-width background like Hero outer wrapper */
+  width:100%;
+  background:#FFF;
+  padding:56px 16px; /* similar to Hero: py-14 px-4 */
+  border-radius:18px;
+  margin-top:28px;
+  box-sizing:border-box;
+  overflow:hidden;
+}
+.lm-heading{
+  text-align:center;
+  font-size:28px;
+  font-weight:700;
+  margin-bottom:18px;
+  color:#003E29;
+}
+
+/* Ticker area */
+.lm-ticker{
+  margin-bottom:18px;
+  position:relative;
+  width:100%;
+  box-sizing:border-box;
+}
+
+.lm-ticker > *{
+  width:100%; /* ensure inner ticker occupies container width */
+}
+
+/* simple styling for TradingView ticker when rendered inside page */
+.tv-ticker{
+  width:100%;
+  display:block;
+  margin-left:0; /* ensure ticker sits at the left edge of the inner container */
+  padding-left:0; /* no padding so iframe fills the inner content width */
+}
+
+/* ensure the embedded iframe fills the tv-ticker width exactly */
+.tv-ticker iframe{
+  width:100% !important;
+  box-sizing:border-box;
+  display:block;
+}
+
+/* inner wrapper to center content with max width (like Hero's max-w-6xl) */
+.lm-inner{
+  max-width:1100px; /* adjust as needed */
+  margin-left:auto;
+  margin-right:auto;
+  box-sizing:border-box;
+}
+
+/* Grid for cards */
+.lm-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+  gap:16px;
+}
+.lm-card{
+  padding:16px;
+  border-radius:14px;
+  background:var(--card-bg);
+  border:1px solid var(--card-border);
+  text-align:center;
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.lm-card:hover{transform:translateY(-4px); box-shadow:0 6px 18px rgba(15,139,110,0.06)}
+.lm-icon{margin-bottom:8px; color:var(--accent)}
+.lm-title{font-size:16px; font-weight:600}
+.lm-price{margin-top:8px; font-size:18px; font-weight:700; color:var(--accent)}
+
+/* Button bar */
+.lm-buttonbar{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:18px;
+}
+.lm-scroll{
+  display:flex;
+  overflow-x:auto;
+  gap:12px;
+  padding:6px 4px;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  flex:1;
+}
+.lm-market-button{
+  border:1px solid var(--card-border);
+  background:var(--card-bg);
+  border-radius:12px;
+  min-width:140px;
+  text-align:center;
+  cursor:pointer;
+  display:inline-flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  scroll-snap-align:start;
+  white-space:nowrap;
+}
+.lm-market-button > div:first-child{font-weight:700}
+.lm-market-button > div:last-child{margin-top:6px; color:var(--accent); font-weight:700}
+
+/* size variants */
+.lm-size-sm{padding:8px 10px; font-size:13px; min-width:110px}
+.lm-size-md{padding:12px 14px; font-size:15px; min-width:140px}
+.lm-size-lg{padding:16px 18px; font-size:17px; min-width:170px}
+
+/* arrow & size buttons */
+.lm-arrow-btn, .lm-size-btn{
+  background:#fff;
+  border:1px solid var(--muted-border);
+  border-radius:8px;
+  width:36px;
+  height:36px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+}
+
+/* Small screens adjustments (phones) */
+@media (max-width:480px){
+  .lm-container{padding:12px; border-radius:10px}
+  .lm-heading{font-size:18px}
+  .lm-grid{grid-template-columns:1fr; gap:10px}
+  .lm-card{padding:10px}
+  .lm-title{font-size:14px}
+  .lm-price{font-size:15px}
+  .lm-market-button{min-width:96px; padding:8px 10px; font-size:13px}
+  .lm-size-controls{display:none}
+  .lm-arrow-btn{width:32px;height:32px}
+  /* Ensure TradingView ticker is visible and responsive on small screens */
+  .lm-ticker{display:block; width:100%; overflow:visible}
+}
+
+/* Medium screens (small tablets) */
+@media (min-width:481px) and (max-width:768px){
+  .lm-container{padding:20px}
+  .lm-heading{font-size:22px}
+  .lm-grid{grid-template-columns:repeat(2, 1fr)}
+  .lm-card{padding:14px}
+}
+
+/* Large screens */
+@media (min-width:769px) and (max-width:1024px){
+  .lm-container{padding:28px}
+  .lm-grid{grid-template-columns:repeat(3, 1fr)}
+}
+
+/* Extra large */
+@media (min-width:1025px){
+  .lm-container{padding:40px}
+  .lm-grid{grid-template-columns:repeat(4, 1fr)}
+}

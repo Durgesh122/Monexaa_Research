@@ -1,0 +1,41 @@
+{
+  "sebi_description": "SEBI पंजीकृत रिसर्च हाउस जो समय पर मार्केट इनसाइट और रिपोर्ट प्रदान करता है।",
+  "section": {
+    "company": "कंपनी",
+    "services": "सेवाएँ",
+    "legal": "कानूनी"
+  },
+  "links": {
+    "aboutUs": "हमारे बारे में",
+    "blogs": "ब्लॉग",
+    "marketNews": "बाज़ार समाचार",
+    "contactUs": "संपर्क करें",
+
+    "rapidIndex": "रेपिड इंडेक्स",
+    "rapidOption": "रेपिड ऑप्शन",
+    "cashPositional": "कैश पोज़िशनल",
+    "stockFuture": "स्टॉक फ्यूचर",
+    "eliteCombo": "एलिट कॉम्बो",
+
+    "termsAndConditions": "नियम व शर्तें",
+    "privacyPolicy": "गोपनीयता नीति",
+    "disclaimer": "अस्वीकरण",
+    "refundPolicy": "वापसी नीति",
+    "disclosure": "प्रकटीकरण"
+  },
+  "contact_heading": "संपर्क करें",
+  "address_line": "261, PU-4, Plot No. 26, Scheme No. 54, Indore, Madhya Pradesh – 452010",
+  "support_email": "support@monexaaresearch.com",
+  "phone": "+91 6232678136",
+  "sebi_title": "SEBI पंजीकृत रिसर्च एनालिस्ट",
+  "sebi": {
+    "registration_no": "पंजीकरण संख्या:",
+    "registered_name": "पंजीकृत नाम:",
+    "compliance_officer": "कम्प्लायंस अधिकारी:",
+    "gst_no": "GST नंबर:",
+    "bse_enlistment_no": "BSE सूचीकरण संख्या:",
+    "validity": "वैधता:"
+  },
+  "disclaimer_paragraph": "सिक्योरिटीज़ मार्केट में निवेश बाजार जोखिमों के अधीन है। निवेश करने से पहले सभी संबंधित दस्तावेजों को ध्यान से पढ़ें।",
+  "copyright": "© {{year}} Monnexaa Research Private Limited। सर्वाधिकार सुरक्षित।"
+}
