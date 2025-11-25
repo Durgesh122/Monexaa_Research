@@ -160,7 +160,7 @@ function LiveMarketDemo() {
 
 const styles = {
   container: {
-    padding: "20px",
+    padding: "clamp(16px, 5vw, 20px)",
     background: "transparent",
     borderRadius: "12px",
     marginTop: "20px",

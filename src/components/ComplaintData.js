@@ -83,7 +83,7 @@ export default function ComplaintData() {
 }
 
 const styles = {
-  container: { padding: '12px', maxWidth: '100%', margin: '14px auto', background: 'transparent', display: 'flex', flexDirection: 'column', alignItems: 'stretch' },
+  container: { padding: 'clamp(12px, 4vw, 24px)', maxWidth: '100%', margin: '14px auto', background: 'transparent', display: 'flex', flexDirection: 'column', alignItems: 'stretch' },
   heading: { fontSize: 'clamp(18px, 4vw, 20px)', fontWeight: 800, color: '#003E29', textAlign: 'center' },
   lead: { color: '#334455', marginTop: 6, textAlign: 'center', fontSize: 'clamp(12px, 3vw, 14px)', padding: '0 8px' },
   caption: { textAlign: 'center', paddingBottom: 8, color: '#334455', fontWeight: 700 },

@@ -79,7 +79,7 @@ export default function FAQ() {
 
 const styles = {
   container: {
-    padding: 24,
+    padding: 'clamp(16px, 5vw, 24px)',
     maxWidth: 1100,
     margin: '18px auto',
     background: 'transparent'

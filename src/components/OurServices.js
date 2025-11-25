@@ -46,7 +46,7 @@ export default function OurServices() {
 
 const styles = {
   page: {
-    padding: '16px',
+    padding: 'clamp(16px, 5vw, 24px)',
     maxWidth: 1100,
     margin: '0 auto',
   },
@@ -74,7 +74,7 @@ const styles = {
   },
   grid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
     gap: 16,
   },
   cardLink: {

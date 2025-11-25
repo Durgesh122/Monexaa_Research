@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 
 // Continuous alert/ticker shown near top of page (hidden on small screens)
-export default function AlertBanner({ messages, top, speed = 60 } ) {
+export default function AlertBanner({ messages, top, speed = 60, style: customStyle, className }) {
   const msgs = messages && messages.length ? messages : [
     'Investment/Trading in Securities Market is subject to market risk. Read all the related documents carefully before investing. Please read document of our privacy policy, terms of use & disclaimer on our website. We do not provide any guaranteed or assured return services, profit sharing services, Demat Account services, Investment related services or any other services which are not mentioned at our website.'
   ];
@@ -47,9 +47,11 @@ export default function AlertBanner({ messages, top, speed = 60 } ) {
     };
   }, [msgs.join('|'), speed]);
 
-  const style = top !== undefined ? { position: 'fixed', left: 0, right: 0, top: top, zIndex: 98 } : undefined;
+  const defaultStyle = top !== undefined ? { position: 'fixed', left: 0, right: 0, top: top, zIndex: 98 } : undefined;
+  const combinedStyle = { ...defaultStyle, ...customStyle };
+
   return (
-    <div ref={containerRef} className="alert-banner" role="region" aria-label="Site alerts" style={style}>
+    <div ref={containerRef} className={`alert-banner ${className || ''}`} role="region" aria-label="Site alerts" style={combinedStyle}>
       <div ref={trackRef} className="alert-track" aria-hidden="false">
         {loop.map((m, i) => (
           <div className="alert-item" key={i}>{m}</div>

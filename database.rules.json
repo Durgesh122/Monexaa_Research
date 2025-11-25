@@ -1,0 +1,11 @@
+{
+  "rules": {
+    "contact_submissions": {
+      ".read": false,
+      ".write": true,
+      "$submissionId": {
+        ".validate": "newData.hasChildren(['name','mobile','message','submittedAt']) &&\n                       newData.child('name').isString() &&\n                       newData.child('mobile').isString() &&\n                       newData.child('message').isString() &&\n                       newData.child('submittedAt').isString()"
+      }
+    }
+  }
+}

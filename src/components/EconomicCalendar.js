@@ -1,8 +1,20 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
-// Demo/sample events removed — component will show the widget (or fetched events) and allow custom events.
-const sampleEvents = [];
+// Generate some sample events for the "Custom Calendar" fallback
+const generateSampleEvents = () => {
+  const today = new Date().toISOString().slice(0, 10);
+  return [
+    { id: 's1', time: `${today}T08:30:00`, country: 'USD', impact: 'High', title: 'Non-Farm Employment Change', actual: '180K', forecast: '170K', previous: '165K' },
+    { id: 's2', time: `${today}T09:00:00`, country: 'USD', impact: 'Medium', title: 'Unemployment Rate', actual: '3.9%', forecast: '3.9%', previous: '3.8%' },
+    { id: 's3', time: `${today}T10:00:00`, country: 'EUR', impact: 'Medium', title: 'ECB President Lagarde Speaks', actual: '-', forecast: '-', previous: '-' },
+    { id: 's4', time: `${today}T14:00:00`, country: 'GBP', impact: 'High', title: 'BoE Interest Rate Decision', actual: '-', forecast: '5.25%', previous: '5.25%' },
+    { id: 's5', time: `${today}T15:30:00`, country: 'CAD', impact: 'Low', title: 'Trade Balance', actual: '-', forecast: '1.2B', previous: '1.1B' },
+    { id: 's6', time: `${today}T16:00:00`, country: 'USD', impact: 'High', title: 'ISM Manufacturing PMI', actual: '-', forecast: '49.5', previous: '49.0' },
+  ];
+};
+
+const sampleEvents = generateSampleEvents();
 
 function formatLocal(iso) {
   try {
@@ -34,8 +46,39 @@ export default function EconomicCalendar() {
   const [showForm, setShowForm] = useState(false);
   const [customEvents, setCustomEvents] = useState([]);
   const [form, setForm] = useState({ time: '', country: '', impact: 'Medium', title: '', actual: '-', forecast: '-', previous: '-' });
+  
+  // Widget state
+  const [showWidget, setShowWidget] = useState(true);
+  const [widgetLoaded, setWidgetLoaded] = useState(false);
+  const widgetTimeoutRef = useRef(null);
+
   // configurable widget URL (falls back to Myfxbook widget)
   const widgetSrc = process.env.REACT_APP_MYFX_WIDGET_URL || 'https://widget.myfxbook.com/widget/calendar.html';
+
+  // Fallback logic: If widget doesn't load in 3 seconds, switch to custom calendar
+  useEffect(() => {
+    if (showWidget) {
+      widgetTimeoutRef.current = setTimeout(() => {
+        if (!widgetLoaded) {
+          // console.warn('Widget timed out, switching to custom calendar');
+          setShowWidget(false);
+        }
+      }, 3000);
+    }
+    return () => {
+      if (widgetTimeoutRef.current) clearTimeout(widgetTimeoutRef.current);
+    };
+  }, [showWidget, widgetLoaded]);
+
+  const handleWidgetLoad = () => {
+    setWidgetLoaded(true);
+    if (widgetTimeoutRef.current) clearTimeout(widgetTimeoutRef.current);
+  };
+
+  const handleWidgetError = () => {
+    // console.warn('Widget failed to load, switching to custom calendar');
+    setShowWidget(false);
+  };
 
   useEffect(() => {
     let mounted = true;
@@ -257,7 +300,7 @@ export default function EconomicCalendar() {
       {error && <div style={{ color: '#B02A37', textAlign: 'center', marginBottom: 8 }}>Error loading calendar: {error}</div>}
 
       {/* If no external API configured, show the Myfxbook widget iframe (or configured widget) */}
-      {!process.env.REACT_APP_ECON_API_URL ? (
+      {!process.env.REACT_APP_ECON_API_URL && showWidget ? (
         <div style={styles.widgetWrap}>
           <iframe
             src={widgetSrc}
@@ -265,40 +308,73 @@ export default function EconomicCalendar() {
             loading="lazy"
             style={styles.iframe}
             frameBorder="0"
-            scrolling="no"
-            sandbox="allow-scripts allow-same-origin allow-popups"
+            scrolling="auto"
+            sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+            onLoad={handleWidgetLoad}
+            onError={handleWidgetError}
           />
+          {!widgetLoaded && (
+            <div style={{ padding: 20, textAlign: 'center', color: '#666' }}>Loading calendar widget...</div>
+          )}
         </div>
       ) : null}
 
-      {/* Add Event UI removed per request */}
-
-      {/* Scroll wrapper: allows mouse drag to pan and wheel-to-scroll (shift for horizontal) */}
-      <div
-        ref={containerRef}
-        style={styles.tableWrap}
-      >
-        <div style={styles.table}>
-          {([...(customEvents || []), ...(events || [])]).map((e, idx) => (
-            <div key={e.id} style={styles.row}>
-              <div style={{ flex: 2 }}>{formatLocal(e.time)}</div>
-              <div style={{ flex: 1, fontWeight: 700 }}>{e.country}</div>
-              <div style={{ flex: 1 }}><ImpactBadge level={e.impact} /></div>
-              <div style={{ flex: 4 }}>{e.title}</div>
-              <div style={{ flex: 2 }}>{e.actual}</div>
-              <div style={{ flex: 2 }}>{e.forecast}</div>
-              <div style={{ flex: 2 }}>{e.previous || '—'}</div>
-              {e.custom ? (
-                <div style={{ marginLeft: 8 }}>
-                  <button onClick={() => removeCustomEvent(e.id)} style={styles.smallBtn}>Delete</button>
-                </div>
-              ) : null}
+      {/* Show Custom Calendar if widget is disabled or API is used */}
+      {(!showWidget || process.env.REACT_APP_ECON_API_URL) && (
+        <>
+          {!showWidget && !process.env.REACT_APP_ECON_API_URL && (
+            <div style={{ textAlign: 'center', marginBottom: 12, padding: 8, background: '#fff3cd', color: '#856404', borderRadius: 8, fontSize: 14 }}>
+              Widget unavailable. Showing simplified calendar.
             </div>
-          ))}
-        </div>
-      </div>
+          )}
+          
+          {/* Scroll wrapper: allows mouse drag to pan and wheel-to-scroll (shift for horizontal) */}
+          <div
+            ref={containerRef}
+            style={styles.tableWrap}
+          >
+            <div style={styles.table}>
+              <div style={styles.rowHeader}>
+                <div style={{ flex: 2 }}>Time</div>
+                <div style={{ flex: 1 }}>Country</div>
+                <div style={{ flex: 1 }}>Impact</div>
+                <div style={{ flex: 4 }}>Event</div>
+                <div style={{ flex: 2 }}>Actual</div>
+                <div style={{ flex: 2 }}>Forecast</div>
+                <div style={{ flex: 2 }}>Previous</div>
+              </div>
+              {([...(customEvents || []), ...(events || [])]).map((e, idx) => (
+                <div key={e.id} style={styles.row}>
+                  <div style={{ flex: 2 }}>{formatLocal(e.time)}</div>
+                  <div style={{ flex: 1, fontWeight: 700 }}>{e.country}</div>
+                  <div style={{ flex: 1 }}><ImpactBadge level={e.impact} /></div>
+                  <div style={{ flex: 4 }}>{e.title}</div>
+                  <div style={{ flex: 2 }}>{e.actual}</div>
+                  <div style={{ flex: 2 }}>{e.forecast}</div>
+                  <div style={{ flex: 2 }}>{e.previous || '—'}</div>
+                  {e.custom ? (
+                    <div style={{ marginLeft: 8 }}>
+                      <button onClick={() => removeCustomEvent(e.id)} style={styles.smallBtn}>Delete</button>
+                    </div>
+                  ) : null}
+                </div>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
 
-      <div style={{ marginTop: 12, textAlign: 'right' }}>
+      <div style={{ marginTop: 12, textAlign: 'right', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        {/* Toggle button for manual switch */}
+        {!process.env.REACT_APP_ECON_API_URL && (
+          <button 
+            onClick={() => setShowWidget(!showWidget)} 
+            style={{ background: 'transparent', border: 'none', color: '#556677', textDecoration: 'underline', cursor: 'pointer', fontSize: 13 }}
+          >
+            {showWidget ? "Switch to Simple View" : "Try Widget View"}
+          </button>
+        )}
+
         {/* Open full calendar in a new tab. Use REACT_APP_FULL_CAL_URL if provided, otherwise open the widget URL. */}
         <a href={process.env.REACT_APP_FULL_CAL_URL || widgetSrc} target="_blank" rel="noopener noreferrer" style={styles.calendarLink}>
           View full economic calendar →
@@ -310,7 +386,7 @@ export default function EconomicCalendar() {
 
 const styles = {
   page: {
-    padding: 24,
+    padding: 'clamp(16px, 5vw, 24px)',
     maxWidth: 1100,
     margin: '0 auto',
     background: 'transparent'
@@ -347,7 +423,8 @@ const styles = {
     background: '#fff',
     border: '1px solid #e6eef0',
     fontWeight: 800,
-    color: '#223344'
+    color: '#223344',
+    minWidth: '800px'
   },
   row: {
     display: 'flex',
@@ -356,7 +433,8 @@ const styles = {
     borderRadius: 10,
     background: '#FFFFFF',
     border: '1px solid #e6eef0',
-    alignItems: 'center'
+    alignItems: 'center',
+    minWidth: '800px'
   },
   calendarLink: {
     color: '#0F8B6E',
@@ -398,13 +476,14 @@ const styles = {
     border: '1px solid #d9e6df'
   }
   ,
-  widgetWrap: {
-    width: '100%',
+  tableWrap: {
+    overflowX: 'auto',
+    marginTop: 12,
     borderRadius: 12,
-    overflow: 'hidden',
-    marginBottom: 12,
-    border: '1px solid #e6eef0',
-    background: '#fff'
+    background: '#fff',
+    padding: 8,
+    boxShadow: '0 6px 18px rgba(15,139,110,0.04)',
+    WebkitOverflowScrolling: 'touch'
   },
   iframe: {
     width: '100%',

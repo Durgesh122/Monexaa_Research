@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { rdb } from '../firebase';
+import { getRdbInstance } from '../firebase';
 import { push, ref, set } from 'firebase/database';
 import { FaUser, FaPhone, FaEnvelope, FaMapMarkerAlt, FaCommentDots, FaPaperPlane, FaCheckCircle } from 'react-icons/fa';
 
@@ -112,8 +112,9 @@ export default function ContactForm() {
     // Attempt to push to Firebase Realtime Database (non-blocking)
     (async () => {
       try {
-        if (rdb) {
-          const node = push(ref(rdb, 'contact_submissions'));
+        const _rdb = await getRdbInstance();
+        if (_rdb) {
+          const node = push(ref(_rdb, 'contact_submissions'));
           await set(node, payload);
         }
       } catch (err) {
@@ -128,7 +129,7 @@ export default function ContactForm() {
 
   return (
     <>
-      <section style={{ padding: '24px', maxWidth: '1100px', margin: '18px auto', background: 'transparent', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <section style={{ padding: 'clamp(16px, 5vw, 24px)', maxWidth: '1100px', margin: '18px auto', background: 'transparent', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <h2 style={{ fontSize: '20px', fontWeight: 800, color: '#003E29', textAlign: 'center', marginBottom: '6px', animation: 'fadeInDown 0.8s ease-out' }}>Contact Us</h2>
         <div style={{ color: '#334455', textAlign: 'center', animation: 'fadeInUp 0.8s ease-out 0.2s both' }}>Fill your details and message below — we will get back to you.</div>
 

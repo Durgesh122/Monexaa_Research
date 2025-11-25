@@ -11,7 +11,7 @@ export default function Hero() {
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-6 md:gap-8">
           <div className="space-y-6 text-center md:text-left">
-            <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-extrabold text-[#0b2b28] leading-tight fade-up animate-heading-loop">
+            <h1 className="text-2xl sm:text-4xl md:text-6xl lg:text-7xl font-extrabold text-[#0b2b28] leading-tight fade-up animate-heading-loop">
               <span className="inline-flex items-center gap-1 -ml-2 md:-ml-20">
                 <img src={vectorLeft} alt="ornament left" className="w-16 md:w-20" />
                 <span className="text-accent-start font-marcellus">The</span>
